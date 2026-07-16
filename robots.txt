@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://na3na3.com/sitemap.xml

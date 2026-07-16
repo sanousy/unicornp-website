@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <linearGradient id="leafFill" x1="20%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#1c4520"/>
+      <stop offset="100%" stop-color="#3f8a3f"/>
+    </linearGradient>
+    <clipPath id="leafClip">
+      <path d="M60,6 C93,26 104,72 60,112 C16,72 27,26 60,6 Z"/>
+    </clipPath>
+  </defs>
+
+  <g transform="rotate(-28 60 60)">
+    <path d="M60,6 C93,26 104,72 60,112 C16,72 27,26 60,6 Z" fill="url(#leafFill)"/>
+    <rect x="55" y="4" width="10" height="14" rx="4" fill="#8a6d1f" transform="rotate(180 60 11)"/>
+
+    <g clip-path="url(#leafClip)" stroke="#c9a227" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.9">
+      <path d="M60,16 L60,104"/>
+      <path d="M60,32 L38,48"/>
+      <path d="M60,32 L82,48"/>
+      <path d="M60,52 L34,68"/>
+      <path d="M60,52 L86,68"/>
+      <path d="M60,72 L40,90"/>
+      <path d="M60,72 L80,90"/>
+    </g>
+  </g>
+</svg>
