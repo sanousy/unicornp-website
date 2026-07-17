@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3: Enterprise Form Fields | Na3Na3 Soft Developer Handbook</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;900&family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="doc-page">
+  <div class="doc-page-nav">
+    <a href="../index.html#developers" class="btn-ghost">&larr; Back to site</a>
+    <div>
+      <a href="module-2.html" class="btn-secondary">&larr; Previous</a>
+      <a href="module-4.html" class="btn-secondary">Next &rarr;</a>
+    </div>
+  </div>
+  <div class="markdown-body">
+<h1>Module 3: Form input fields</h1>
+<p>This module covers the "Frontline" of data entry. In the <strong>Unicorn P</strong> ecosystem, every input field is more than just an HTML tag; it is a state-aware component that automatically maps its value to the <code>req</code> object in your Backend JS API.</p>
+<p>All elements in this module support the standard <code>.upff</code> class for enterprise styling and the <code>icon</code> attribute for visual cues.</p>
+<hr />
+<h3><strong>3.1 Text &amp; Security</strong></h3>
+<h4><strong><code>&lt;up-text&gt;</code></strong></h4>
+<p>The standard single-line input for alphanumeric data.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong> <code>label</code>, <code>placeholder</code>, <code>icon</code>, <code>required</code>, <code>maxlength</code>.</p>
+</li>
+<li>
+<p><strong>Recipe:</strong> <code>up-text#username[label="Username" icon="user" required]</code></p>
+</li>
+</ul>
+<h4><strong><code>&lt;up-password&gt;</code></strong></h4>
+<p>A secure input field that masks characters and includes a built-in "eye" icon to toggle visibility.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong> <code>label</code>, <code>icon</code>.</p>
+</li>
+<li>
+<p><strong>Recipe:</strong> <code>up-password#pwd[label="Password"]</code></p>
+</li>
+</ul>
+<h4><strong><code>&lt;up-textarea&gt;</code></strong></h4>
+<p>For multi-line text, such as notes, descriptions, or addresses.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong> <code>rows</code> (default is 3), <code>label</code>.</p>
+</li>
+<li>
+<p><strong>Recipe:</strong> <code>up-textarea#notes[label="Internal Remarks" rows="5"]</code></p>
+</li>
+</ul>
+<hr />
+<h3><strong>3.2 Numeric &amp; Range</strong></h3>
+<h4><strong><code>&lt;up-number&gt;</code></strong></h4>
+<p>A precise numeric input. It automatically prevents non-numeric characters and handles decimal precision.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong> <code>min</code>, <code>max</code>, <code>step</code> (e.g., <code>0.01</code> for currency), <code>label</code>.</p>
+</li>
+<li>
+<p><strong>Recipe:</strong> <code>up-number#amount[label="Transaction Amount" step="0.001"]</code></p>
+</li>
+</ul>
+<h4><strong><code>&lt;up-range&gt;</code></strong></h4>
+<p>A horizontal slider for selecting a value within a specific bound.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong> <code>min</code>, <code>max</code>, <code>value</code>.</p>
+</li>
+<li>
+<p><strong>Recipe:</strong> <code>up-range#priority[min="1" max="10" value="5"]</code></p>
+</li>
+</ul>
+<hr />
+<h3><strong>3.3 Contact Info</strong></h3>
+<h4><strong><code>&lt;up-phone&gt;</code></strong></h4>
+<p>An input specialized for phone numbers, often including automatic formatting or country code selection.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong> <code>label</code>, <code>icon="phone"</code>.</p>
+</li>
+<li>
+<p><strong>Recipe:</strong> <code>up-phone#mobile[label="Mobile Number"]</code></p>
+</li>
+</ul>
+<h4><strong><code>&lt;up-email&gt;</code></strong></h4>
+<p>Includes built-in regex validation to ensure the input follows a standard email format before the form can be submitted.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong> <code>label</code>, <code>icon="envelope"</code>.</p>
+</li>
+<li>
+<p><strong>Recipe:</strong> <code>up-email#contact[label="Email Address"]</code></p>
+</li>
+</ul>
+<hr />
+<h3><strong>3.4 Selection &amp; Toggles</strong></h3>
+<h4><strong><code>&lt;up-lov&gt;</code> (List of Values)</strong></h4>
+<p>The most important selection tool. It links directly to a database-driven list.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong> * <code>api</code>: The table/endpoint to fetch from (e.g., <code>sys_status:lov</code>).</p>
+</li>
+<li>
+<p><code>display</code>: The column to show the user.</p>
+</li>
+<li>
+<p><code>value</code>: The column to store in the DB.</p>
+</li>
+<li>
+<p><strong>Recipe:</strong> <code>up-lov#status_id[label="Status" api="acc_status_lov:lov" display="name" value="id"]</code></p>
+</li>
+</ul>
+<h4><strong><code>&lt;up-select&gt;</code></strong></h4>
+<p>A standard dropdown for static or hardcoded options.</p>
+<ul>
+<li><strong>Recipe:</strong> <code>up-select#gender[options="Male,Female,Other"]</code></li>
+</ul>
+<h4><strong><code>&lt;up-checkbox&gt;</code> / <code>&lt;up-chkbox&gt;</code></strong></h4>
+<p>Standard boolean toggles. Use <code>up-chkbox</code> for a more compact version in grids.</p>
+<ul>
+<li><strong>Recipe:</strong> <code>up-checkbox#is_active[label="Active User"]</code></li>
+</ul>
+<h4><strong><code>&lt;up-toggle&gt;</code></strong></h4>
+<p>A modern "Switch" style checkbox.</p>
+<ul>
+<li><strong>Recipe:</strong> <code>up-toggle#dark_mode[label="Enable Dark Theme"]</code></li>
+</ul>
+<h4><strong><code>&lt;up-radiobutton&gt;</code></strong></h4>
+<p>Used when a user must select exactly one option from a visible list.</p>
+<ul>
+<li><strong>Recipe:</strong> <code>up-radiobutton#pay_method[options="Cash,Card,Transfer"]</code></li>
+</ul>
+<h4><strong><code>&lt;up-checklist&gt;</code></strong></h4>
+<p>Renders a list of checkboxes. It returns an <strong>array</strong> of selected values to the backend.</p>
+<ul>
+<li><strong>Recipe:</strong> <code>up-checklist#permissions[api="sys_perm:lov"]</code></li>
+</ul>
+<h4><strong><code>&lt;up-tagbox&gt;</code></strong></h4>
+<p>A sophisticated multi-select field where selected items appear as "tags" (pills) that can be removed.</p>
+<ul>
+<li><strong>Recipe:</strong> <code>up-tagbox#categories[label="Project Tags" api="sys_tags:lov"]</code></li>
+</ul>
+<hr />
+<h3><strong>Architect's Tip for Module 3:</strong></h3>
+<p>For <strong>"Money &amp; Gain"</strong> efficiency, always use the <code>id</code> as the database column name. If your table column is <code>customer_name</code>, name your element <code>up-text#customer_name</code>. The Unicorn P engine will then automatically map the value during <code>prepInsert</code> or <code>prepUpdate</code> without any extra code.</p>
+<p><strong>Shall we move to Module 4: Date, Time &amp; Scheduling?</strong></p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 6: Specialized Logic &amp; Programming | Na3Na3 Soft Developer Handbook</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;900&family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="doc-page">
+  <div class="doc-page-nav">
+    <a href="../index.html#developers" class="btn-ghost">&larr; Back to site</a>
+    <div>
+      <a href="module-5.html" class="btn-secondary">&larr; Previous</a>
+      <a href="module-7.html" class="btn-secondary">Next &rarr;</a>
+    </div>
+  </div>
+  <div class="markdown-body">
+<h1><strong>Module 6: Specialized Logic &amp; Programming</strong></h1>
+<p>reflects the high-stakes architectural realities . This is the most critical module for a developer because it bridges the gap between a "UI Designer" and a "System Engineer."</p>
+<hr />
+<h3><strong>Module 6: Specialized Logic &amp; Programming (Technical Deep-Dive)</strong></h3>
+<p>This module defines the execution environment of the <strong>Unicorn P</strong> platform. Unlike standard HTML, these elements interact with the core engine's state locks and global variables.</p>
+<h4><strong>6.1 <code>&lt;up-monaco&gt;</code></strong></h4>
+<p>The integrated code editor.</p>
+<ul>
+<li>
+<p><strong>Precision Note:</strong> It automatically inherits the <code>TOPWINDOW_LEVEL</code> (1000) when popped into a modal, ensuring the code completion dropdowns are never hidden behind other UI layers.</p>
+</li>
+<li>
+<p><strong>Attributes:</strong> <code>language</code> (sql, javascript, json), <code>theme</code>.</p>
+</li>
+</ul>
+<h4><strong>6.2 <code>&lt;up-query&gt;</code> / <code>&lt;up-api&gt;</code></strong></h4>
+<p>These are the data-fetching workhorses.</p>
+<ul>
+<li>
+<p><strong>The Dependency Engine:</strong> When using <code>basedon</code>, the engine collects values from the specified IDs and sends them to the backend <code>QUERY</code> constant (<code>sys_query:api</code>).</p>
+</li>
+<li>
+<p><strong>State Management:</strong> These elements respect the <code>global_mutex</code>. If <code>global_mutex</code> is <code>true</code>, the engine may delay execution to prevent data corruption.</p>
+</li>
+<li>
+<p><strong>Developer Recipe:</strong></p>
+</li>
+</ul>
+<p>Emmet code</p>
+<p><code>// Fetching data only when 'branch_id' changes
+  up-query#fetcher[api="acc_ledger:get" basedon="branch_id"]</code></p>
+<h4><strong>6.3 <code>&lt;up-onload&gt;</code></strong></h4>
+<p>Executes logic immediately after the component is mounted.</p>
+<ul>
+<li>
+<p><strong>Core Interaction:</strong> This is the ideal place to set initial states before the <code>load_mutex</code> is released.</p>
+</li>
+<li>
+<p><strong>Recipe:</strong> <code>up-onload[action="init_dashboard"]</code></p>
+</li>
+</ul>
+<h4><strong>6.4 <code>&lt;up-value&gt;</code></strong></h4>
+<p>The reactive expression engine.</p>
+<ul>
+<li>
+<p><strong>Precision Note:</strong> It uses the internal <code>getFieldValue</code> logic. If a field is not yet "ready" (e.g., waiting for a report or query), it uses a recursive <code>setTimeout</code> (100ms) to wait until the data is available.</p>
+</li>
+<li>
+<p><strong>Recipe:</strong> <code>up-value#total[expression="price * qty"]</code></p>
+</li>
+</ul>
+<hr />
+<h3><strong>Critical "Under the Hood" Documentation</strong></h3>
+<p>To prevent developers from breaking the system, the following <strong>Global Constraints</strong> must be documented:</p>
+<h4><strong>A. The Mutex System (State Protection)</strong></h4>
+<p>Developers must be aware of the following internal flags managed by <code>up-core.js</code>:</p>
+<ul>
+<li>
+<p><strong><code>global_mutex</code></strong>: When <code>true</code>, the UI is in a "Critical Section." Do not trigger manual DOM manipulations.</p>
+</li>
+<li>
+<p><strong><code>upwindow_mutex</code></strong>: Prevents multiple modal windows from fighting for focus.</p>
+</li>
+<li>
+<p><strong><code>load_mutex</code></strong>: True during the initial boot sequence of an object.</p>
+</li>
+</ul>
+<h4><strong>B. Pathing &amp; The <code>root</code> Variable</strong></h4>
+<p>The engine defines a constant <code>root = "/"</code>.</p>
+<ul>
+<li><strong>Rule:</strong> All <code>api</code> and <code>src</code> paths in tags are relative to this <code>root</code>. Developers should <strong>never</strong> hardcode absolute URLs (e.g., <code>http://localhost/api...</code>), as this will break the Cloudflare Tunneling and production VPS routing.</li>
+</ul>
+<h4><strong>C. RTL/LTR Directionality</strong></h4>
+<p>The system uses the <code>DIR</code> variable (<code>RTL</code> or <code>LTR</code>).</p>
+<ul>
+<li><strong>Swipe Logic:</strong> The core <code>handleTouchMove</code> function automatically flips swipe directions based on the <code>DIR</code> setting. If you are building for a Middle Eastern client, the "Slide to Next" logic will automatically move from left-to-right.</li>
+</ul>
+<h4><strong>D. Automatic Validation (<code>ASTERISK</code>)</strong></h4>
+<p>The platform manages visual "Required" cues automatically.</p>
+<ul>
+<li>
+<p><strong>Mechanism:</strong> If an input has the <code>required</code> attribute, the core appends the <code>ASTERISK</code> constant (<code>color:red {*}</code>) to the associated label.</p>
+</li>
+<li>
+<p><strong>Benefit:</strong> Consistent UI across all modules without manual Emmet styling.</p>
+</li>
+</ul>
+<hr />
+<h3><strong>Architect's Precision Checklist</strong></h3>
+<p>Before a consultant marks a screen as "Production Ready," they must verify:</p>
+<ol>
+<li>
+<p><strong>Z-Index Integrity:</strong> No custom CSS exceeds a Z-index of <code>500</code> (to stay below <code>NONTOPWINDOW</code>).</p>
+</li>
+<li>
+<p><strong>ID Uniqueness:</strong> All IDs used in <code>basedon</code> or <code>expressions</code> are unique within the current <code>up-include</code> scope.</p>
+</li>
+<li>
+<p><strong>Mutex Safety:</strong> No long-running synchronous JS functions are blocking the <code>global_mutex</code>.</p>
+</li>
+</ol>
+  </div>
+</div>
+</body>
+</html>

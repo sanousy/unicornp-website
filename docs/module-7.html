@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 7: Reporting, Charts &amp; Analytics | Na3Na3 Soft Developer Handbook</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;900&family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="doc-page">
+  <div class="doc-page-nav">
+    <a href="../index.html#developers" class="btn-ghost">&larr; Back to site</a>
+    <div>
+      <a href="module-6.html" class="btn-secondary">&larr; Previous</a>
+      <a href="module-8.html" class="btn-secondary">Next &rarr;</a>
+    </div>
+  </div>
+  <div class="markdown-body">
+<h1>Module 7: Charts and Reports</h1>
+<p>This module focuses on the "Output" phase of the information system. After data is captured and processed, <strong>Module 7</strong> allows developers to transform raw MariaDB rows into high-level business intelligence and professional financial documents.</p>
+<hr />
+<h3><strong>7.1 <code>&lt;up-chart&gt;</code></strong></h3>
+<p>A powerful data visualization component that renders interactive charts. It is designed to sit at the top of dashboards to provide an immediate overview of financial health.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>type</code>: The visual format (<code>"bar"</code>, <code>"line"</code>, <code>"pie"</code>, <code>"doughnut"</code>).</p>
+</li>
+<li>
+<p><code>api</code>: The backend endpoint that returns a JSON array of labels and values.</p>
+</li>
+<li>
+<p><code>colors</code>: (Optional) A comma-separated list of hex codes to override the theme.</p>
+</li>
+<li>
+<p><strong>Developer Recipe (Emmet):</strong></p>
+</li>
+</ul>
+<p>Emmet code</p>
+<p><code>// A bar chart showing monthly sales from the ledger
+  up-chart#salesChart[type="bar" api="acc_ledger:monthly_summary"]</code></p>
+<hr />
+<h3><strong>7.2 <code>&lt;up-report&gt;</code> / <code>&lt;up-reportf&gt;</code></strong></h3>
+<p>These elements are the "Print Engine" of Unicorn P. While grids are for editing, <code>&lt;up-report&gt;</code> is for generating <strong>A4-ready, printable documents</strong> like Invoices, Balance Sheets, and Profit &amp; Loss statements.</p>
+<ul>
+<li>
+<p><strong><code>&lt;up-report&gt;</code></strong>: The main container that handles pagination, headers, and footers.</p>
+</li>
+<li>
+<p><strong><code>&lt;up-reportf&gt;</code></strong>: (Report Field) A specialized cell within a report that handles specific formatting (e.g., forcing a negative number to appear in red or in parentheses).</p>
+</li>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>template</code>: The name of the <code>sys_object</code> containing the report's HTML/Emmet structure.</p>
+</li>
+<li>
+<p><code>export</code>: (Boolean) Enables "Export to PDF" and "Export to Excel" buttons.</p>
+</li>
+<li>
+<p><strong>Developer Recipe:</strong></p>
+</li>
+</ul>
+<p>Emmet code</p>
+<p><code>// Generating a printable Invoice
+  up-report#inv_print[object="acc_invoice" template="invoice_template" export]</code></p>
+<hr />
+<h3><strong>7.3 <code>&lt;up-display&gt;</code> / <code>&lt;up-celldisplay&gt;</code></strong></h3>
+<p>Used for high-density, read-only information displays. They are more efficient than input fields when the user only needs to view data.</p>
+<ul>
+<li>
+<p><strong><code>&lt;up-display&gt;</code></strong>: Used for standalone values (e.g., a "Total Balance" badge at the top of a screen).</p>
+</li>
+<li>
+<p><strong><code>&lt;up-celldisplay&gt;</code></strong>: Used inside grids or lists to format data based on its type (e.g., turning a <code>0/1</code> into a <code>Yes/No</code> badge or formatting a currency).</p>
+</li>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>type</code>: (<code>"currency"</code>, <code>"date"</code>, <code>"status"</code>, <code>"badge"</code>)</p>
+</li>
+<li>
+<p><code>value</code>: The raw data to be formatted.</p>
+</li>
+<li>
+<p><strong>Developer Recipe:</strong></p>
+</li>
+</ul>
+<p>Emmet code</p>
+<p><code>// A currency display for the total amount
+  up-display#total_amount[type="currency" value="1500.50"]</code></p>
+<hr />
+<h3><strong>Architect's Tip for Module 7:</strong></h3>
+<p>For <strong>"Money &amp; Gain,"</strong> always offer your clients an "Export to Excel" option on every report. In your Backend JS API, when a user triggers an <code>&lt;up-report&gt;</code>, you can use the <code>sys_log</code> to track which reports are most used, helping you decide which features to charge more for in the future.</p>
+<p><strong>Ready to move to Module 8: Workflow &amp; Business Process (BPMN)?</strong></p>
+  </div>
+</div>
+</body>
+</html>

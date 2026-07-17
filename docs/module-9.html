@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 9: Specialized Modules | Na3Na3 Soft Developer Handbook</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;900&family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="doc-page">
+  <div class="doc-page-nav">
+    <a href="../index.html#developers" class="btn-ghost">&larr; Back to site</a>
+    <div>
+      <a href="module-8.html" class="btn-secondary">&larr; Previous</a>
+      <span class="btn-secondary disabled">Next &rarr;</span>
+    </div>
+  </div>
+  <div class="markdown-body">
+<h1>Module 9: Advanced Controls ( Pro)</h1>
+<p>This final module covers the "Peripherals" and specialized vertical logic of the <strong>Unicorn P</strong> platform. These elements allow you to bridge the digital system with physical locations, hardware (scanners), and complex educational logic like the <strong>hfzb</strong> exam engine.</p>
+<hr />
+<h3><strong>9.1 <code>&lt;up-leaflet-map&gt;</code></strong></h3>
+<p>Integrates a high-performance geographic mapping engine based on Leaflet. It is essential for logistics, branch management, or field service tracking.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>lat</code> / <code>lng</code>: The center coordinates of the map.</p>
+</li>
+<li>
+<p><code>zoom</code>: Initial zoom level (e.g., <code>13</code>).</p>
+</li>
+<li>
+<p><code>api</code>: Endpoint returning a JSON array of markers (expects <code>lat</code>, <code>lng</code>, <code>popup_text</code>).</p>
+</li>
+<li>
+<p><strong>Developer Recipe (Emmet):</strong></p>
+</li>
+</ul>
+<p>Emmet code</p>
+<p><code>// A map showing all company warehouse locations
+  up-leaflet-map#main_map[lat="31.94" lng="35.92" zoom="12" api="sys_branch:map_data"]</code></p>
+<hr />
+<h3><strong>9.2 <code>&lt;up-exam&gt;</code></strong></h3>
+<p>The flagship engine for the <strong>hfzb</strong> system. This is a high-stakes component that handles question delivery, timers, and cheating prevention logic.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>exam-id</code>: The ID of the exam defined in the <code>hfzb_exam</code> table.</p>
+</li>
+<li>
+<p><code>duration</code>: Time limit in minutes.</p>
+</li>
+<li>
+<p><code>oncomplete</code>: JS hook to trigger when the student submits the exam.</p>
+</li>
+<li>
+<p><strong>Behavior:</strong> It manages the state of the student's session and communicates with your <code>hfzb_exam_question</code> table to ensure randomized delivery.</p>
+</li>
+<li>
+<p><strong>Developer Recipe:</strong></p>
+</li>
+</ul>
+<p>Emmet code</p>
+<p><code>// Starting a professional certification exam
+  up-exam#exam_engine[exam-id="2024_FIN_01" duration="60" oncomplete="calculate_result"]</code></p>
+<hr />
+<h3><strong>9.3 <code>&lt;up-scanner&gt;</code></strong></h3>
+<p>Provides hardware-level integration for Barcode and QR code scanning. It uses the device's camera or an attached USB scanner to input data directly into the active field.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>target</code>: The ID of the input field (e.g., <code>#item_code</code>) where the scanned value should be placed.</p>
+</li>
+<li>
+<p><code>beep</code>: (Boolean) Triggers an audio confirmation on a successful scan.</p>
+</li>
+<li>
+<p><strong>Developer Recipe:</strong></p>
+</li>
+</ul>
+<p>Emmet code</p>
+<p><code>// A scan-to-inventory tool
+  up-text#item_code[label="Item Code"]+up-scanner[target="item_code" beep="true"]</code></p>
+<hr />
+<h3><strong>9.4 <code>&lt;up-tooltip&gt;</code></strong></h3>
+<p>Enhances the user experience by providing non-intrusive, contextual help. In complex accounting screens, this explains what specific fields mean.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>text</code>: The message to display.</p>
+</li>
+<li>
+<p><code>position</code>: (<code>"top"</code>, <code>"bottom"</code>, <code>"left"</code>, <code>"right"</code>).</p>
+</li>
+<li>
+<p><strong>Behavior:</strong> Wrap this around any label or icon to create a hover-triggered help bubble.</p>
+</li>
+<li>
+<p><strong>Developer Recipe:</strong></p>
+</li>
+</ul>
+<p>Emmet code</p>
+<p><code>up-label[value="VAT Amount"](up-tooltip[text="Calculated as 16% of the net total"])</code></p>
+<hr />
+<h3><strong>9.5 <code>&lt;up-errors&gt;</code></strong></h3>
+<p>A centralized hub for form validation. Instead of cluttering the UI with individual error messages, this element gathers all <code>required</code> and <code>regex</code> failures into one professional list.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>form</code>: The ID of the container/div to monitor for errors.</p>
+</li>
+<li>
+<p><strong>Behavior:</strong> It stays hidden until a user attempts to "Save" or "Post" with invalid data, then it reveals the specific reasons for the failure.</p>
+</li>
+<li>
+<p><strong>Developer Recipe:</strong></p>
+</li>
+</ul>
+<p>Emmet code</p>
+<p><code>// A validation summary at the top of a form
+  up-errors#form_validation_summary[form="user_entry_form"]</code></p>
+<hr />
+<h3><strong>Architect's Summary of the Unicorn P Library</strong></h3>
+<p>With these <strong>9 Modules</strong> and <strong>70+ Elements</strong>, developers are provided with a complete toolkit. They no longer need to worry about the "How" of web development (CSS, HTML, Event Listeners). They only need to focus on the <strong>"What"</strong> (The Business Logic).</p>
+  </div>
+</div>
+</body>
+</html>

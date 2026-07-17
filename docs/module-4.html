@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 4: Date, Time &amp; Scheduling | Na3Na3 Soft Developer Handbook</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;900&family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="doc-page">
+  <div class="doc-page-nav">
+    <a href="../index.html#developers" class="btn-ghost">&larr; Back to site</a>
+    <div>
+      <a href="module-3.html" class="btn-secondary">&larr; Previous</a>
+      <a href="module-5.html" class="btn-secondary">Next &rarr;</a>
+    </div>
+  </div>
+  <div class="markdown-body">
+<h1>Module 4: Specialized Date and Time and Calendar Controls</h1>
+<p>In professional enterprise systems, time is a critical data dimension. <strong>Module 4</strong> provides specialized controls to ensure that dates and schedules are captured accurately and consistently, preventing the common "formatting headaches" found in standard web development.</p>
+<p>All elements in this module automatically interface with the <strong>Golang backend</strong> using standard ISO strings, ensuring your MariaDB <code>DATE</code> and <code>DATETIME</code> columns remain perfectly synced.</p>
+<hr />
+<h3><strong>4.1 <code>&lt;up-date&gt;</code></strong></h3>
+<p>The standard enterprise-grade date picker. It features a clean UI and supports keyboard shortcuts for rapid entry.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>label</code>: Header text.</p>
+</li>
+<li>
+<p><code>icon</code>: Defaults to a calendar icon.</p>
+</li>
+<li>
+<p><code>value</code>: The initial date (YYYY-MM-DD).</p>
+</li>
+<li>
+<p><code>required</code>: Prevents form submission if empty.</p>
+</li>
+<li>
+<p><strong>Developer Recipe (Emmet):</strong></p>
+</li>
+</ul>
+<p>JavaScript</p>
+<p><code>up-date#invoice_date[label="Invoice Date" value="now" required]</code></p>
+<hr />
+<h3><strong>4.2 <code>&lt;up-month&gt;</code> / <code>&lt;up-year&gt;</code></strong></h3>
+<p>Specialized pickers for accounting periods, financial reporting, or credit card expirations where specific days are irrelevant.</p>
+<ul>
+<li>
+<p><strong><code>&lt;up-month&gt;</code></strong>: Returns a <code>YYYY-MM</code> format.</p>
+</li>
+<li>
+<p><strong><code>&lt;up-year&gt;</code></strong>: Returns a <code>YYYY</code> format.</p>
+</li>
+<li>
+<p><strong>Developer Recipe:</strong></p>
+</li>
+</ul>
+<p>JavaScript</p>
+<p><code>// For a Financial Report Filter
+  up-month#report_period[label="Fiscal Month"]
+  +up-year#fiscal_year[label="Fiscal Year"]</code></p>
+<hr />
+<h3><strong>4.3 <code>&lt;up-time&gt;</code></strong></h3>
+<p>A precise time picker for tracking shifts, log entries, or appointment starts.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>format</code>: Support for 12h or 24h display.</p>
+</li>
+<li>
+<p><code>step</code>: Controls the minute increments (e.g., <code>15</code> for quarter-hour slots).</p>
+</li>
+<li>
+<p><strong>Developer Recipe:</strong></p>
+</li>
+</ul>
+<p>JavaScript</p>
+<p><code>up-time#check_in[label="Entry Time" step="5"]</code></p>
+<hr />
+<h3><strong>4.4 <code>&lt;up-calendar&gt;</code> / <code>&lt;up-event-calendar&gt;</code></strong></h3>
+<p>High-level views for visualizing data over a timeline.</p>
+<ul>
+<li>
+<p><strong><code>&lt;up-calendar&gt;</code></strong>: A standard interactive month/week view.</p>
+</li>
+<li>
+<p><strong><code>&lt;up-event-calendar&gt;</code></strong>: Connects to an API to display "Events" (like your <code>hfzb_exam_center_schedule</code>).</p>
+</li>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>api</code>: The endpoint providing the event JSON (expects <code>start</code>, <code>end</code>, <code>title</code>).</p>
+</li>
+<li>
+<p><code>view</code>: Default view mode (<code>month</code>, <code>week</code>, <code>day</code>).</p>
+</li>
+<li>
+<p><strong>Developer Recipe:</strong></p>
+</li>
+</ul>
+<p>JavaScript</p>
+<p><code>// Visualizing the exam schedule
+  up-event-calendar#schedule[api="hfzb_exam:get_schedule" view="month"]</code></p>
+<hr />
+<h3><strong>Architect's Tip for Module 4:</strong></h3>
+<p>In your Backend JS API, remember that the platform treats these values as strings.</p>
+<ul>
+<li>
+<p>Use <code>req.invoice_date</code> directly in your SQL <code>WHERE</code> clauses.</p>
+</li>
+<li>
+<p>For the <strong>Accounting Module</strong>, use <code>&lt;up-month&gt;</code> for "Closing Periods" to prevent users from accidentally selecting a specific day that doesn't align with your month-end logic.</p>
+</li>
+</ul>
+<p><strong>Ready to move to Module 5: Media &amp; Visual Content?</strong></p>
+  </div>
+</div>
+</body>
+</html>

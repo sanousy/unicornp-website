@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 8: Workflow &amp; Business Process (BPMN) | Na3Na3 Soft Developer Handbook</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;900&family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="doc-page">
+  <div class="doc-page-nav">
+    <a href="../index.html#developers" class="btn-ghost">&larr; Back to site</a>
+    <div>
+      <a href="module-7.html" class="btn-secondary">&larr; Previous</a>
+      <a href="module-9.html" class="btn-secondary">Next &rarr;</a>
+    </div>
+  </div>
+  <div class="markdown-body">
+<h1>Module 8: Workflow &amp; Business Process (BPMN)</h1>
+<p>This module represents the "Control Room" of your enterprise logic. These elements are designed to visualize and enforce the <strong>Document State Machine</strong> yo. Instead of hardcoding "if-else" statements, these components allow a developer to manage business rules visually and chronologically.</p>
+<hr />
+<h3><strong>8.1 <code>&lt;up-bpmn&gt;</code></strong></h3>
+<p>Integrates a professional Business Process Model and Notation (BPMN) viewer and modeler. It allows developers and business analysts to see the logical flow of a document (e.g., from "Draft" to "Approved" to "Posted").</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>src</code>: The URL or API endpoint returning the <code>.bpmn</code> (XML) file.</p>
+</li>
+<li>
+<p><code>mode</code>: (<code>"view"</code> or <code>"edit"</code>) Allows users to either just see the process or modify the nodes.</p>
+</li>
+<li>
+<p><code>current-step</code>: Highlights the active node in the process based on the document's current state.</p>
+</li>
+<li>
+<p><strong>Developer Recipe (Emmet):</strong></p>
+</li>
+</ul>
+<p>Emmet code</p>
+<p><code>// Visualizing the Approval Cycle for an Invoice
+  up-bpmn#workflow_map[src="/api/wf/acc_invoice" current-step="pending_approval"]</code></p>
+<hr />
+<h3><strong>8.2 <code>&lt;up-wf&gt;</code></strong></h3>
+<p>The "Action Bridge" for your workflow engine. This element automatically renders the buttons and transitions defined in your <code>sys_wf_step</code> and <code>sys_wf_step_action</code> tables.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>object</code>: The name of the <code>sys_object</code> being tracked.</p>
+</li>
+<li>
+<p><code>record-id</code>: The specific ID of the row (e.g., <code>invoice_id</code>).</p>
+</li>
+<li>
+<p><code>onaction</code>: A JS hook that triggers when a workflow button is clicked (e.g., to refresh a grid after approval).</p>
+</li>
+<li>
+<p><strong>Behavior:</strong> It queries the backend to see which actions are available for the <em>current user</em> at the <em>current step</em> and renders the appropriate "Approve," "Reject," or "Forward" buttons.</p>
+</li>
+<li>
+<p><strong>Developer Recipe:</strong></p>
+</li>
+</ul>
+<p>Emmet code</p>
+<p><code>// Toolbar for document transitions
+  up-wf#wf_actions[object="acc_invoice" record-id="1001" onaction="refresh_ui"]</code></p>
+<hr />
+<h3><strong>8.3 <code>&lt;up-gantt&gt;</code></strong></h3>
+<p>A high-level project management component. It transforms your data into a chronological timeline, showing dependencies and progress bars.</p>
+<ul>
+<li>
+<p><strong>Key Attributes:</strong></p>
+</li>
+<li>
+<p><code>api</code>: The endpoint returning the task list (expects <code>id</code>, <code>text</code>, <code>start_date</code>, <code>duration</code>, <code>parent</code>).</p>
+</li>
+<li>
+<p><code>scale</code>: (<code>"day"</code>, <code>"week"</code>, <code>"month"</code>) Sets the zoom level of the timeline.</p>
+</li>
+<li>
+<p><code>readonly</code>: (Boolean) Toggles whether users can drag bars to change dates.</p>
+</li>
+<li>
+<p><strong>Developer Recipe:</strong></p>
+</li>
+</ul>
+<p>Emmet code</p>
+<p><code>// Visualizing an Audit or Project Timeline
+  up-gantt#project_timeline[api="sys_project:get_tasks" scale="week"]</code></p>
+<hr />
+<h3><strong>Architect's Tip for Module 8:</strong></h3>
+<p>This is the "Enterprise Secret." When selling to high-end clients, don't just show them a data table—show them the <strong><code>&lt;up-bpmn&gt;</code></strong> map of their company's logic. By using <strong><code>&lt;up-wf&gt;</code></strong>, you ensure that a "Junior Accountant" can never click a "Post" button unless the "Senior Accountant" has moved the document to the correct step. This built-in security is a major selling point for the <strong>BYD Server</strong>.</p>
+<p><strong>Ready to finish with Module 9: Specialized Modules (Maps, Exams, Scanners)?</strong></p>
+  </div>
+</div>
+</body>
+</html>
